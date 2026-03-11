@@ -80,3 +80,26 @@ async def read_todo(todo_id: int, db: Session = Depends(get_db)):
     if todo is None:
         raise HTTPException(status_code=404, detail="Todo not found")
     return todo
+
+@app.put("/todos/{todo_id}", response_model=Todo)
+async def update_todo(todo_id: int, todo: TodoCreate, db: Session = Depends(get_db)):
+    db_todo = db.query(TodoDB).filter(TodoDB.id == todo_id).first()
+    if db_todo is None:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    
+    for key, value in todo.dict().items():
+        setattr(db_todo, key, value)
+    
+    db.commit()
+    db.refresh(db_todo)
+    return db_todo
+
+@app.delete("/todos/{todo_id}")
+async def delete_todo(todo_id: int, db: Session = Depends(get_db)):
+    db_todo = db.query(TodoDB).filter(TodoDB.id == todo_id).first()
+    if db_todo is None:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    
+    db.delete(db_todo)
+    db.commit()
+    return {"message": f"Todo {todo_id} deleted"}
