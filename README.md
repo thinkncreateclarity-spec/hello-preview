@@ -19,3 +19,10 @@ gh pr create --title "feat: add login" --body "Login preview"
 
 # 4. Merge → Production
 gh pr merge --merge --delete-branch
+
+## 🚀 Multi-Service + Database Evolution (Phase 2)
+
+**Status**: Brainstormed → Next: Build FastAPI + Postgres + Frontend
+
+### Case Study: Task Tracker (Todoist Mini)
+
