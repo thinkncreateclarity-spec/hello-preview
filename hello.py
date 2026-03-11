@@ -1,14 +1,20 @@
-from flask import Flask
-import os
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 
-app = Flask(__name__)
+app = FastAPI(title="Ajay's FastAPI 🚀 - PHASE 1 COMPLETE")
 
-@app.route('/')
-def hello():
-    pr = os.environ.get('PR_NUMBER', 'main')
-    return f"<h1>Ajay's CLI Preview 🚀</h1><p>PR #{pr} live on Railway!</p>"
+@app.get("/health")
+async def health():
+    return {"status": "healthy", "pr": "#1"}
 
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port, debug=True)
-<p>Test Preview test PR #1 - Ajay</p>
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    return """
+    <h1>Ajay's FastAPI 🚀 - PHASE 1 COMPLETE</h1>
+    <p>FastAPI deployed successfully on Railway!</p>
+    <a href="/docs">Swagger UI</a>
+    """
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
