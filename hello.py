@@ -197,4 +197,3 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
         )
     access_token = create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
-// Deploy fix Wed Mar 11 19:26:34 IST 2026
