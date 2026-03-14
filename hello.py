@@ -56,7 +56,9 @@ class TodoBase(BaseModel):
 
 class TodoCreate(TodoBase):
     pass
-
+def get_password_hash(password: str) -> str:
+    # FIXED: Truncate + bcrypt 4.0.1 compatible
+    return pwd_context.hash(password[:72])
 class Todo(TodoBase):
     id: int
     user_id: int
